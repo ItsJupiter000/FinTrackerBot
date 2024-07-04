@@ -2,8 +2,9 @@ import { Client, GatewayIntentBits } from 'discord.js';
 import dotenv from 'dotenv';
 import connectDB from './db/user.db.js';
 import registerCommand from './commands/register.js';
-import addExpenseCommand from './commands/addExpense.js';
-import getAllExpenses from './commands/getExpenses.js';
+import getAllExpenses from './commands/addExpense.js';
+import addExpenseCommand from './commands/getExpenses.js';
+import getSummary from './commands/getSummary.js';
 
 dotenv.config({
     path: './.env'
@@ -26,6 +27,7 @@ const startBot = async () => {
     client.commands.set(registerCommand.name, registerCommand);
     client.commands.set(addExpenseCommand.name, addExpenseCommand);
     client.commands.set(getAllExpenses.name, getAllExpenses);
+    client.commands.set(getSummary.name, getSummary);
 
     client.on("interactionCreate", async interaction => {
         if (!interaction.isCommand()) return;

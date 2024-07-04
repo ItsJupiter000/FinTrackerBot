@@ -2,6 +2,7 @@ import { REST, Routes } from "discord.js";
 import registerCommand from "./commands/register.js";
 import addExpenseCommand from "./commands/addExpense.js";
 import getAllExpenses from "./commands/getExpenses.js";
+import getSummary from "./commands/getSummary.js";
 
 import dotenv from 'dotenv';
 
@@ -9,17 +10,13 @@ dotenv.config({
   path: './.env'
 });
 
-
 // This file is used to register commands to our bot.
-
+// We will use the REST API to register the commands.
 const commands = [
-  {
-    name: "ping",
-    description: "Replies with Pong!",
-  },
   registerCommand,
   addExpenseCommand,
-  getAllExpenses
+  getAllExpenses,
+  getSummary
 ];
 
 const rest = new REST({ version: '9' }).setToken(process.env.DISCORD_TOKEN);
@@ -34,4 +31,4 @@ const rest = new REST({ version: '9' }).setToken(process.env.DISCORD_TOKEN);
     } catch (error) {
         console.error(error);
     }
-})();
+})(); //IIFE
