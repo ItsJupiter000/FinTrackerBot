@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import connectDB from './db/user.db.js';
 import registerCommand from './commands/register.js';
 import addExpenseCommand from './commands/addExpense.js';
+import getAllExpenses from './commands/getExpenses.js';
 
 dotenv.config({
     path: './.env'
@@ -18,11 +19,13 @@ const startBot = async () => {
             GatewayIntentBits.GuildMessages, 
             GatewayIntentBits.MessageContent
         ],
+        requestTimeout: 60000
     });
 
     client.commands = new Map();
     client.commands.set(registerCommand.name, registerCommand);
     client.commands.set(addExpenseCommand.name, addExpenseCommand);
+    client.commands.set(getAllExpenses.name, getAllExpenses);
 
     client.on("interactionCreate", async interaction => {
         if (!interaction.isCommand()) return;
