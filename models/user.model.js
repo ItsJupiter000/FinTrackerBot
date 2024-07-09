@@ -1,4 +1,5 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose from "mongoose";
+const { Schema } = mongoose;
 
 const userSchema = new Schema(
     {
@@ -15,6 +16,10 @@ const userSchema = new Schema(
         password: {
             type: String,
             required: true,
+        },
+        groupId: {
+            type: String,
+            required: false,
         },
         expenses: [
             {

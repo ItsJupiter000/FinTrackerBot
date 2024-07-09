@@ -37,7 +37,6 @@ const addExpenseCommand = {
             name: "type",
             description: "The type of the expense",
             type: 3,
-            required: true,
             choices: [
                 { name: "Credit", value: "credit" },
                 { name: "Debit", value: "debit" },
@@ -45,6 +44,8 @@ const addExpenseCommand = {
         },
     ],
     async execute(interaction) {
+        await interaction.deferReply();
+
         const category = interaction.options.getString("category");
         const amount = interaction.options.getInteger("amount");
         const description = interaction.options.getString("description");
@@ -53,11 +54,10 @@ const addExpenseCommand = {
         // Retrieve user by Discord ID
         const user = await User.findOne({ discordId: interaction.user.id });
         if (!user) {
-            return interaction.reply(`User not found. Please register first.`);
+            return interaction.editReply(`User not found. Please register first.`);
         }
 
         const expense = new Expense({
-            // user: interaction.user.id,
             user: user._id,
             category,
             amount,
@@ -71,10 +71,15 @@ const addExpenseCommand = {
         user.expenses.push(expense._id);
         await user.save();
 
+        // //construct the result message like $username added $amount to $category for $description as $type successfully
+        // const resultMessage = `${user.username} added ₹${amount} to ${category} for ${description} as ${type} successfully`;
 
-        return interaction.reply(`Expense added successfully.`);
+        // Construct the result message
+        const resultMessage = `Expense added successfully by **${user.username}** :\nCategory: ${category}\nAmount: ₹${amount}\nDescription: ${description}\nType: ${type}`;
+
+        // Edit the initial reply with the result message
+        await interaction.editReply(resultMessage);
     }
 };
 
 export default addExpenseCommand;
-

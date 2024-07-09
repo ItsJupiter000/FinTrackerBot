@@ -16,11 +16,17 @@ const registerCommand = {
             type: 3,
             required: true,
         },
+        {
+            name: "groupid",
+            description: "The group ID of the user",
+            type: 3,
+            required: false,
+        }
     ],
     async execute(interaction) {
         const username = interaction.options.getString("username");
         const password = interaction.options.getString("password");
-
+        const groupId = interaction.options.getString("groupid") || null; // Get the group ID or set it to null if it doesn't exist
         const discordId = interaction.user.id; // Get the Discord user ID
 
         // Check if the username already exists in the database
@@ -33,7 +39,8 @@ const registerCommand = {
         const user = new User({
             username,
             password,
-            discordId,
+            groupId,
+            discordId,           
         });
 
         await user.save();

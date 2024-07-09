@@ -5,6 +5,7 @@ import registerCommand from './commands/register.js';
 import getAllExpenses from './commands/addExpense.js';
 import addExpenseCommand from './commands/getExpenses.js';
 import getSummary from './commands/getSummary.js';
+import getSplitedExpenses from './commands/getSplitedExpenses.js';
 
 dotenv.config({
     path: './.env'
@@ -28,6 +29,7 @@ const startBot = async () => {
     client.commands.set(addExpenseCommand.name, addExpenseCommand);
     client.commands.set(getAllExpenses.name, getAllExpenses);
     client.commands.set(getSummary.name, getSummary);
+    client.commands.set(getSplitedExpenses.name, getSplitedExpenses);
 
     client.on("interactionCreate", async interaction => {
         if (!interaction.isCommand()) return;
